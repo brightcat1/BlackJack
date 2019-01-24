@@ -16,11 +16,11 @@ public class BlackJack {
 		String markname = "";
 		int point = 0;
 		int cpupoint = 0;
-		int key = 0; //cpuの行動制御にフラグ変数を使用
+		int key = 0; //dealer turn flag
 		
 		int[][] card = new int[4][13]; 
 		
-		System.out.println("コンピュータの手番です。");
+		System.out.println("Dealer's turn.");
 		while(key == 0){
 			if(cpupoint <= 14){
 				while(true){
@@ -28,7 +28,7 @@ public class BlackJack {
 					black = jack.nextInt(13);
 					if(card[mark][black] == 0){
 						card[mark][black] = 1;
-						cpupoint += black + 1;		 //点数の計算が正しくないのを修正し、コードの位置を最適化
+						cpupoint += black + 1;		 //calculate dealer point
 						break;
 					}
 				}
@@ -40,87 +40,83 @@ public class BlackJack {
 						black = jack.nextInt(13);
 						if(card[mark][black] == 0){
 							card[mark][black] = 1;
-							cpupoint += black + 1; 	//点数の計算が正しくないのを修正し、コードの位置を最適化
+							cpupoint += black + 1;
 							break;
 						}
 					}
 				}
 				if(cpu == 2){
-					key = 1;  						//プレイヤーの手番に回すときはkeyに1を代入
+					key = 1;  						//turn to player turn
 				}
 			}
 			if(cpupoint == 21){
-				System.out.println("ブラック・ジャック！！親の勝ちじゃ！！");
-				System.out.println("CPUの点数は" + cpupoint + "でした");	 	//ゲーム終了時CPUのポイントを表示するように変更				
-				key = 2; 							//プレイヤーの手番が来ないままゲーム終了する場合はkeyに2を代入
+				System.out.println("Black Jack! Dealer win!");
+				System.out.println("Dealer's hand value is " + cpupoint);
 			}
 			if(cpupoint > 21){
-				System.out.println("奴がやられたか・・・。お前の勝ちだ・・・ぐっ。");
-				System.out.println("CPUの点数は" + cpupoint + "でした");		 //ゲーム終了時CPUのポイントを表示するように変更
-				key = 2; 							//プレイヤーの手番が来ないままゲーム終了する場合はkeyに2を代入
+				System.out.println("busting! You Win!");
+				System.out.println("Dealer's hand value is " + cpupoint);
 			}
 		}
 		
 		
-		if(key == 1){	//keyに2を代入してある場合はプレイヤーの手番を飛ばす
-			System.out.println("コンピュータの手番は終了です。");
-			System.out.println("次はあなたの番です。");
+		if(key == 1){	//only if key is 1, player turn coming
+			System.out.println("It's your turn.");
 			while(true){
-				System.out.println("ドローしますか？1:Yes 2:No");
+				System.out.println("Do you want to draw? 1:Yes 2:No");
 				int draw = stdIn.nextInt();
 				
-				// 以下ドローの処理
+				// Drawing process
 				if(draw == 1){
 					while(true){
 						mark = mark2.nextInt(4);
 						black = jack.nextInt(13);
 						if(card[mark][black] == 0){
 							card[mark][black] = 1;
-							point = point + black + 1;		// 点数の計算
+							point = point + black + 1;
 							break;
 						}
 					}
 				}
-				// ドロー処理の終了
+				// Drawing process end
 				
 				
-				// 以下表示処理
+				// Define suit of cards
 				switch(mark+1){
 				case 1:
-					markname = "スペード";
+					markname = "SPADES";
 					break;
 				case 2:
-					markname = "ハート";
+					markname = "HEARTS";
 					break;
 				case 3:
-					markname = "ダイヤ";
+					markname = "DIAMONDS";
 					break;
 				case 4:
-					markname = "クローバー";
+					markname = "CLUBS";
 					break;
 				}
 				if(draw == 1){
-					System.out.println(markname + "の" + (black + 1));
-					System.out.println("現在のポイントは" + point + "です。");
+					System.out.println( "the " + (black + 1) + "of " + markname);
+					System.out.println("Your hand value is " + point);
 				}
 				if(draw == 2){
-					System.out.println("現在のポイントは" + point + "です。");
+					System.out.println("Your hand value is " + point);
 					break;
 				}
 				
 				if(point == 21){
-					System.out.println("ブラック・ジャック");
+					System.out.println("Black Jack!");
 					break;
 				}
 				if(point > 21){
-					System.out.println("ドボン");
+					System.out.println("Burst! You Lose!");
 					break;
 				}
-				// 表示処理の終了
 			}
-			System.out.println("CPUの点数は" + cpupoint + "でした"); //ゲーム終了時CPUのポイントを表示するように変更
-			if(point >= cpupoint && point <= 21) System.out.println("貴様の・・・勝ちだ・・・！ぐっ・・・！");
-			if(point <= cpupoint || point > 21) System.out.println("貴様の負けだ！ふぅーはっはっは！！");
+			System.out.println("Dealer's hand value is " + cpupoint); //Final hand of dealer when player win.
+			if(point >= cpupoint && point <= 21) System.out.println(" You Win!");
+			if(point <= cpupoint || point > 21) System.out.println("You Lose!");
 			stdIn.close();
 		}
 			
