@@ -1,4 +1,3 @@
-package blackjack;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -33,7 +32,7 @@ public class BlackJack {
 					}
 				}
 			}else if(cpupoint >= 15){
-				cpu = decide.nextInt(2) + 1;
+				cpu = decide.nextInt(3) + 1; // With a probability of one third to draw the card.
 				if(cpu == 1){
 					while(true){
 						mark = mark2.nextInt(4);
@@ -45,17 +44,21 @@ public class BlackJack {
 						}
 					}
 				}
-				if(cpu == 2){
+				if(cpupoint == 21){
+					System.out.println("Black Jack! Dealer win!");
+					System.out.println("Dealer's hand value is " + cpupoint);
+					stdIn.close();
+					return;
+				}
+				if(cpupoint > 21){
+					System.out.println("busting! You Win!");
+					System.out.println("Dealer's hand value is " + cpupoint);
+					stdIn.close();
+					return;
+				}
+				if(cpupoint < 21 && (cpu == 2 || cpu == 3)){
 					key = 1;  						//turn to player turn
 				}
-			}
-			if(cpupoint == 21){
-				System.out.println("Black Jack! Dealer win!");
-				System.out.println("Dealer's hand value is " + cpupoint);
-			}
-			if(cpupoint > 21){
-				System.out.println("busting! You Win!");
-				System.out.println("Dealer's hand value is " + cpupoint);
 			}
 		}
 		
@@ -97,7 +100,7 @@ public class BlackJack {
 					break;
 				}
 				if(draw == 1){
-					System.out.println( "the " + (black + 1) + "of " + markname);
+					System.out.println( "the " + (black + 1) + " of " + markname);
 					System.out.println("Your hand value is " + point);
 				}
 				if(draw == 2){
@@ -115,7 +118,7 @@ public class BlackJack {
 				}
 			}
 			System.out.println("Dealer's hand value is " + cpupoint); //Final hand of dealer when player win.
-			if(point >= cpupoint && point <= 21) System.out.println(" You Win!");
+			if(point >= cpupoint && point <= 21) System.out.println("You Win!");
 			if(point <= cpupoint || point > 21) System.out.println("You Lose!");
 			stdIn.close();
 		}
